@@ -1,0 +1,17 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.authentication;
+
+import "google/protobuf/empty.proto";
+
+service Authorization {
+    rpc DoesGroupContainsPermission(DoesGroupContainsPermissionRequest) returns (DoesGroupContainsPermissionResponse);
+}
+
+message DoesGroupContainsPermissionRequest {
+    string group = 1;
+    string permission = 2;
+}
+
+message DoesGroupContainsPermissionResponse {
+    bool contains = 1;
+}

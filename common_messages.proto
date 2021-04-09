@@ -1,0 +1,3 @@
+syntax = "proto3";
+package terraria_launcher.protos.common_messages;
+option csharp_namespace = "TerrariaLauncher.Protos.CommonMessages";

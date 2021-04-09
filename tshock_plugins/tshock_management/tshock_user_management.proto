@@ -1,0 +1,39 @@
+syntax = "proto3";
+package terraria_launcher.protos.tshock_plugins.tshock_management;
+option csharp_namespace = "TerrariaLauncher.Protos.TShockPlugins.TShockManagement";
+
+import "common_messages.proto";
+
+service TShockUserManagement {
+	rpc GetUser(GetUserRequest) returns(TShockUser);
+	rpc CreateUser(CreateUserRequest) returns(TShockUser);
+	rpc UpdateUser(UpdateUserRequest) returns(TShockUser);
+}
+
+message GetUserRequest {
+	oneof id_or_name {
+		int32 id = 1;
+		string name = 2;
+	}
+}
+
+message TShockUser {
+	int32 id = 1;
+	string name = 2;
+	string password = 3;
+	string group = 4;
+}
+
+message CreateUserRequest {
+	string name = 1;
+	string password = 2;
+	string group = 3;
+}
+
+message UpdateUserRequest {
+	int32 id = 1;
+	oneof update_field {
+		string password = 2;
+		string group = 3;
+	}
+}

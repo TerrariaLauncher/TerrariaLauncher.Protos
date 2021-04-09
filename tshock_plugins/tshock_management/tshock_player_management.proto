@@ -1,0 +1,115 @@
+syntax = "proto3";
+package terraria_launcher.protos.tshock_plugins.tshock_management;
+option csharp_namespace = "TerrariaLauncher.Protos.TShockPlugins.TShockManagement";
+
+import "google/protobuf/empty.proto";
+import "common_messages.proto";
+
+service TShockPlayerManagement {
+	rpc GetPlayers(GetPlayersRequest) returns (GetPlayersResponse);
+	rpc GetPlayer(GetPlayerRequest) returns (Player);
+	rpc GetPlayerData(GetPlayerDataRequest) returns (PlayerData);
+
+	rpc KillPlayer(KillPlayerRequest) returns (KillPlayerReponse);
+	rpc KillAllPlayers(KillAllPlayersRequest) returns (KillAllPlayersResponse);
+
+	rpc KickPlayer(KickPlayerRequest) returns (KickPlayerResponse);
+	rpc KickAllPlayers(KickAllPlayersRequest) returns (KickAllPlayersResponse);
+}
+
+message GetPlayersRequest {
+
+}
+
+message GetPlayersResponse {
+	repeated Player players = 1;
+}
+
+message GetPlayerRequest {
+	oneof id_or_name {
+		int32 id = 1;
+		string name = 2;
+	}
+}
+
+message Player {
+	int32 index = 1;
+	string name = 2;
+	string user = 3;
+	string group = 4;
+}
+
+message GetPlayerDataRequest {
+	oneof id_or_name {
+		int32 id = 1;
+		string name = 2;
+	}
+}
+
+message PlayerData {
+	int32 index = 1;
+	Inventory inventory = 2;
+}
+
+message Inventory {
+	repeated Item hot_bar = 1;
+	repeated Item main_inventory = 2;
+	repeated Item coins = 3;
+	repeated Item ammo = 4;
+	Item cusor = 5;
+	Item trash = 6;
+	repeated Item armor = 7;
+	repeated Item vanity_armor = 8;
+	repeated Item armor_dye = 9;
+	repeated Item accessories = 10;
+	repeated Item vanity_accessories = 11;
+	repeated Item accessory_dye = 12;
+	repeated Item equipment = 13;
+	repeated Item equipment_dye = 14;
+}
+
+message Item {
+	int32 id = 1;
+	int32 prefix = 2;
+	int32 stack = 3;
+}
+
+message KillPlayerRequest {
+	oneof id_or_name {
+		int32 id = 1;
+		string name = 2;
+	}
+	string reason = 3;
+}
+
+message KillPlayerReponse {
+	bool killed = 1;
+}
+
+message KillAllPlayersRequest {
+	string reason = 1;
+}
+
+message KillAllPlayersResponse {
+	repeated string players = 1;
+}
+
+message KickPlayerRequest {
+	oneof id_or_name {
+		int32 id = 1;
+		string name = 2;
+	}
+	string reason = 3;
+}
+
+message KickPlayerResponse {
+	bool kicked = 1;
+}
+
+message KickAllPlayersRequest {
+	string reason = 1;
+}
+
+message KickAllPlayersResponse {
+	repeated string players = 1;
+}
