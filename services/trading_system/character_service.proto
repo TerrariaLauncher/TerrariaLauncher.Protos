@@ -1,0 +1,42 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.trading_system;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.TradingSystem";
+
+service CharacterService {
+	rpc GetUserCharacters (GetUserCharactersRequest) returns (GetUserCharactersResponse);
+	rpc CreateCharacter(CreateCharacterRequest) returns (CreateCharacterResponse);
+	rpc AttachCharacter(AttachCharacterRequest) returns (AttachCharacterResponse);
+	rpc DettachCharacter(DettachCharacterRequest) returns (DettachCharacterResponse);
+}
+
+message GetUserCharactersRequest {
+
+}
+
+message GetUserCharactersResponse {
+
+}
+
+message CreateCharacterRequest {
+
+}
+
+message CreateCharacterResponse {
+
+}
+
+message AttachCharacterRequest {
+
+}
+
+message AttachCharacterResponse {
+
+}
+
+message DettachCharacterRequest {
+
+}
+
+message DettachCharacterResponse {
+
+}

@@ -2,6 +2,10 @@ syntax = "proto3";
 package terraria_launcher.protos.tshock_plugins.tshock_management;
 option csharp_namespace = "TerrariaLauncher.Protos.TShockPlugins.TShockManagement";
 
+service TShockGroupManagement {
+
+}
+
 message Group {
 	string name = 1;
 	ChatColor chat_color = 2;

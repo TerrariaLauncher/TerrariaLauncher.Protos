@@ -1,0 +1,24 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.trading_system;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.TradingSystem";
+
+service ShopService {
+	rpc BuyItem(BuyItemRequest) returns(BuyItemResponse);
+	rpc SellItem(SellItemRequest) returns (SellItemResponse);
+}
+
+message BuyItemRequest {
+
+}
+
+message BuyItemResponse {
+
+}
+
+message SellItemRequest {
+
+}
+
+message SellItemResponse {
+
+}

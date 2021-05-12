@@ -13,8 +13,7 @@ service Authentication {
 	rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
 	rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
 
-	rpc GetUserByName(GetUserByNameRequest) returns (GetUserResponse);
-	rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserResponse);
+	rpc GetUser(GetUserRequest) returns (GetUserResponse);
 }
 
 message RegisterRequest {
@@ -80,12 +79,11 @@ message UpdateUserResponse {
 
 }
 
-message GetUserByNameRequest {
-	string name = 1;
-}
-
-message GetUserByEmailRequest {
-	string email = 1;
+message GetUserRequest {
+	oneof identity {
+		string name = 1;
+		string email = 2;
+	}
 }
 
 message GetUserResponse {

@@ -1,0 +1,7 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.trading_system;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.TradingSystem";
+
+service LevelService {
+
+}

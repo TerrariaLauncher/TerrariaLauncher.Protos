@@ -1,0 +1,28 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.tshock_gateway;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.TShockGateway";
+
+service TShockInstanceManagement {
+	rpc GetInstances(GetInstancesRequest) returns (GetInstancesResponse);
+}
+
+message GetInstancesRequest {
+	
+}
+
+message GetInstancesResponse {
+	message Instance {
+		int32 id = 1;
+		string name = 2;
+		bool enabled = 3;
+		string host = 4;
+		int32 port = 5;
+		string public_host = 6;
+		int32 public_port = 7;
+		int32 rest_port = 8;
+		int32 management_port = 9;
+		bool use_tls = 10;
+	}
+
+	repeated Instance instances = 1;
+}

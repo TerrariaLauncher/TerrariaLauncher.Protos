@@ -3,26 +3,48 @@ package terraria_launcher.protos.tshock_plugins.tshock_management;
 option csharp_namespace = "TerrariaLauncher.Protos.TShockPlugins.TShockManagement";
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
 import "common_messages.proto";
 
 service TShockPlayerManagement {
+	rpc GetPlayer(GetPlayerRequest) returns (Player);	
 	rpc GetPlayers(GetPlayersRequest) returns (GetPlayersResponse);
-	rpc GetPlayer(GetPlayerRequest) returns (Player);
+	
 	rpc GetPlayerData(GetPlayerDataRequest) returns (PlayerData);
+	rpc GetPlayersData(GetPlayersDataRequest) returns (GetPlayersDataResponse);
 
 	rpc KillPlayer(KillPlayerRequest) returns (KillPlayerReponse);
 	rpc KillAllPlayers(KillAllPlayersRequest) returns (KillAllPlayersResponse);
 
 	rpc KickPlayer(KickPlayerRequest) returns (KickPlayerResponse);
 	rpc KickAllPlayers(KickAllPlayersRequest) returns (KickAllPlayersResponse);
+
+	rpc TrackPlayerSession(TrackPlayerSessionRequest) returns (stream TrackPlayerSessionResponse);
+	rpc TrackPlayerData(TrackPlayerDataRequest) returns (stream TrackPlayerDataResponse);
+	
+	rpc TrackPlayerChat(TrackPlayerChatRequest) returns (stream PlayerChatDetails);
+	rpc TrackServerBroadcast(TrackServerBroadcastRequest) returns (stream ServerBroadcastDetails);
 }
 
 message GetPlayersRequest {
 
 }
 
-message GetPlayersResponse {
-	repeated Player players = 1;
+message Player {
+	message User {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	message Group {
+		string name = 1;
+	}
+
+	int32 id = 1;
+	string name = 2;
+	User user = 3;
+	Group group = 4;
 }
 
 message GetPlayerRequest {
@@ -32,11 +54,9 @@ message GetPlayerRequest {
 	}
 }
 
-message Player {
-	int32 index = 1;
-	string name = 2;
-	string user = 3;
-	string group = 4;
+message GetPlayersResponse {
+	repeated Player players = 1;
+	google.protobuf.Timestamp timestamp = 2;
 }
 
 message GetPlayerDataRequest {
@@ -47,31 +67,82 @@ message GetPlayerDataRequest {
 }
 
 message PlayerData {
-	int32 index = 1;
-	Inventory inventory = 2;
+	message Player {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	message User {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	message Group {
+		string name = 1;
+	}
+
+	message Health {
+		int32 current = 1;
+		int32 base = 2;
+		int32 max = 3;
+	}
+
+	message Mana {
+		int32 current = 1;
+		int32 base = 2;
+		int32 max = 3;
+	}
+
+	message Inventory {
+		message Item {
+			int32 id = 1;
+			int32 prefix = 2;
+			int32 stack = 3;
+		}
+
+		repeated Item hot_bar = 1;
+		repeated Item main_inventory = 2;
+		repeated Item coins = 3;
+		repeated Item ammo = 4;
+
+		repeated Item cursor = 5;
+
+		repeated Item armor = 6;
+		repeated Item accessories = 7;
+		repeated Item vanity_armor = 8;
+		repeated Item vanity_accessories = 9;
+		
+		repeated Item armor_dye = 10;		
+		repeated Item accessory_dye = 11;
+
+		repeated Item equipment = 12;
+		repeated Item equipment_dye = 13;
+
+		repeated Item piggy_bank = 14;
+		repeated Item safe = 15;
+		
+		repeated Item trash = 16;
+
+		repeated Item defender_forge = 17;
+		repeated Item void_vault = 18;
+	}
+
+	Player player = 1;
+	User user = 2;
+	Group group = 3;
+	Inventory inventory = 4;
+	Health health = 5;
+	Mana mana = 6;
+	google.protobuf.Timestamp timestamp = 7;
 }
 
-message Inventory {
-	repeated Item hot_bar = 1;
-	repeated Item main_inventory = 2;
-	repeated Item coins = 3;
-	repeated Item ammo = 4;
-	Item cusor = 5;
-	Item trash = 6;
-	repeated Item armor = 7;
-	repeated Item vanity_armor = 8;
-	repeated Item armor_dye = 9;
-	repeated Item accessories = 10;
-	repeated Item vanity_accessories = 11;
-	repeated Item accessory_dye = 12;
-	repeated Item equipment = 13;
-	repeated Item equipment_dye = 14;
+message GetPlayersDataRequest {
+
 }
 
-message Item {
-	int32 id = 1;
-	int32 prefix = 2;
-	int32 stack = 3;
+message GetPlayersDataResponse {
+	repeated PlayerData data = 1;
+	google.protobuf.Timestamp timestamp = 2;
 }
 
 message KillPlayerRequest {
@@ -80,6 +151,8 @@ message KillPlayerRequest {
 		string name = 2;
 	}
 	string reason = 3;
+	bool silent = 4;
+	string who_ordered = 5;
 }
 
 message KillPlayerReponse {
@@ -88,10 +161,17 @@ message KillPlayerReponse {
 
 message KillAllPlayersRequest {
 	string reason = 1;
+	bool silent = 2;
+	string who_ordered = 3;
 }
 
 message KillAllPlayersResponse {
-	repeated string players = 1;
+	message Player {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	repeated Player killed_players = 1;
 }
 
 message KickPlayerRequest {
@@ -100,6 +180,9 @@ message KickPlayerRequest {
 		string name = 2;
 	}
 	string reason = 3;
+	bool force = 4;
+	bool silient = 5;
+	string who_ordered = 6;
 }
 
 message KickPlayerResponse {
@@ -108,8 +191,122 @@ message KickPlayerResponse {
 
 message KickAllPlayersRequest {
 	string reason = 1;
+	bool force = 2;
+	bool silent = 3;
+	string who_ordered = 4;
 }
 
 message KickAllPlayersResponse {
-	repeated string players = 1;
+	message Player {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	repeated Player kicked_players = 1;
+}
+
+message TrackPlayerSessionRequest {
+	bool need_initialization = 1;
+}
+
+message TrackPlayerSessionResponse {
+	enum EventType {
+		Initial = 0;
+		Join = 1;
+		Leave = 2;
+		Login = 3;
+		Logout = 4;
+	}
+
+	message Player {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	message User {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	message Group {
+		string name = 2;
+	}
+
+	EventType event_type = 1;
+	Player player = 2;
+	User user = 3;
+	Group group = 4;
+	google.protobuf.Timestamp timestamp = 5;
+}
+
+message TrackPlayerDataRequest {
+	bool need_initialization = 1;
+}
+
+message TrackPlayerDataResponse {
+	message Player {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	message SlotEventDetails {
+		int32 slot = 1;
+		int32 item = 2;
+		int32 prefix = 3;
+		int32 stack = 4;
+	}
+
+	message HealthEventDetails {
+		int32 current = 1;
+		int32 base = 2;
+		int32 max = 3;
+	}
+
+	message ManaEventDetails {
+		int32 current = 1;
+		int32 base = 2;
+		int32 max = 3;
+	}
+
+	message BuffEventDetails {
+
+	}
+
+	Player player = 1;
+	google.protobuf.Any details = 2;
+	google.protobuf.Timestamp timestamp = 3;
+	bool is_initial = 4;
+}
+
+message TrackPlayerChatRequest {
+
+}
+
+message PlayerChatDetails {
+	message Player {
+		int32 id = 1;
+		string name = 2;
+	}
+
+	Player player = 1;
+	string raw_text = 2;
+	string formated_text = 3;
+	google.protobuf.Timestamp timestamp = 4;
+}
+
+message TrackServerBroadcastRequest {
+	
+}
+
+message ServerBroadcastDetails {
+	message TextColor {
+		int32 R = 1;
+		int32 G = 2;
+		int32 B = 3;
+		int32 A = 4;
+	}
+
+	string message = 1;
+	TextColor text_color = 2;
+	google.protobuf.Timestamp timestamp = 3;
 }
