@@ -1,0 +1,34 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.instance_gateway;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.InstanceGateway";
+
+import "google/protobuf/empty.proto";
+import "common_messages.proto";
+import "instance_plugins/instance_management/instance_user_management.proto";
+
+service InstanceUserManagement {
+	rpc GetUser(GetUserRequest) returns(terraria_launcher.protos.instance_plugins.instance_management.InstanceUser);
+	rpc VerifyUserPassword(VerifyUserPasswordRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.VerifyUserPasswordResponse);
+	rpc CreateUser(CreateUserRequest) returns(terraria_launcher.protos.instance_plugins.instance_management.InstanceUser);
+	rpc UpdateUser(UpdateUserRequest) returns(terraria_launcher.protos.instance_plugins.instance_management.InstanceUser);
+}
+
+message GetUserRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.GetUserRequest payload = 2;
+}
+
+message VerifyUserPasswordRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.VerifyUserPasswordRequest payload = 2;
+}
+
+message CreateUserRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.CreateUserRequest payload = 2;
+}
+
+message UpdateUserRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.UpdateUserRequest payload = 2;
+}

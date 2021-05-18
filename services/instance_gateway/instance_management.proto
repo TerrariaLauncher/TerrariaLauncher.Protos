@@ -1,8 +1,8 @@
 syntax = "proto3";
-package terraria_launcher.protos.services.tshock_gateway;
-option csharp_namespace = "TerrariaLauncher.Protos.Services.TShockGateway";
+package terraria_launcher.protos.services.instance_gateway;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.InstanceGateway";
 
-service TShockInstanceManagement {
+service InstanceManagement {
 	rpc GetInstances(GetInstancesRequest) returns (GetInstancesResponse);
 }
 

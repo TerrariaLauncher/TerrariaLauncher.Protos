@@ -11,21 +11,21 @@ const protoFiles = {
             'authentication.proto': path.resolve(__dirname, 'services', 'authentication', 'authentication.proto'),
             'authorization.proto': path.resolve(__dirname, 'services', 'authentication', 'authorization.proto')
         },
-        tShockGateway: {
-            'tshock_instance_management.proto': path.resolve(__dirname, 'services', 'tshock_gateway', 'tshock_instance_management.proto'),
-            'tshock_player_management.proto': path.resolve(__dirname, 'services', 'tshock_gateway', 'tshock_player_management.proto'),
-            'tshock_user_management.proto': path.resolve(__dirname, 'services', 'tshock_gateway', 'tshock_user_management.proto'),
-            'tshock_group_management.proto': path.resolve(__dirname, 'services', 'tshock_gateway', 'tshock_group_management.proto')
+        instanceGateway: {
+            'instance_management.proto': path.resolve(__dirname, 'services', 'instance_gateway', 'instance_management.proto'),
+            'instance_player_management.proto': path.resolve(__dirname, 'services', 'instance_gateway', 'instance_player_management.proto'),
+            'instance_user_management.proto': path.resolve(__dirname, 'services', 'instance_gateway', 'instance_user_management.proto'),
+            'instance_group_management.proto': path.resolve(__dirname, 'services', 'instance_gateway', 'instance_group_management.proto')
+        },
+        tradingSystem: {
+            'registered_instance_user_service.proto': path.resolve(__dirname, 'services', 'trading_system', 'registered_instance_user_service.proto')
         }
     },
-    tShockPlugins: { // These service is provided in-directly via tShockGateway service. Do not use these services directly.
-        tShockManagement: {
-            'tshock_user_management.proto': path.resolve(__dirname, 'tshock_plugins', 'tshock_management', 'tshock_user_management.proto'),
-            'tshock_group_management.proto': path.resolve(__dirname, 'tshock_plugins', 'tshock_management', 'tshock_group_management.proto'),
-            'tshock_player_management.proto': path.resolve(__dirname, 'tshock_plugins', 'tshock_management', 'tshock_player_management.proto')
-        },
-        inGameEconomy: {
-            'banking_service.proto': path.resolve(__dirname, 'tshock_plugins', 'ingame_enconomy', 'banking_service.proto')
+    instancePlugins: { // These service is provided in-directly via "Instance Gateway" service. Do not use these services directly.
+        instanceManagement: {
+            'instance_user_management.proto': path.resolve(__dirname, 'instance_plugins', 'instance_management', 'instance_user_management.proto'),
+            'instance_group_management.proto': path.resolve(__dirname, 'instance_plugins', 'instance_management', 'instance_group_management.proto'),
+            'instance_player_management.proto': path.resolve(__dirname, 'instance_plugins', 'instance_management', 'instance_player_management.proto')
         }
     }
 }

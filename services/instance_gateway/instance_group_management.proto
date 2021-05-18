@@ -1,0 +1,7 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.instance_gateway;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.InstanceGateway";
+
+service InstanceGroupManagement {
+
+}

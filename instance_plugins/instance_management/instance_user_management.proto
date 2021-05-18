@@ -1,0 +1,52 @@
+syntax = "proto3";
+package terraria_launcher.protos.instance_plugins.instance_management;
+option csharp_namespace = "TerrariaLauncher.Protos.InstancePlugins.InstanceManagement";
+
+import "common_messages.proto";
+
+service InstanceUserManagement {
+	rpc GetUser(GetUserRequest) returns(InstanceUser);
+	rpc VerifyUserPassword(VerifyUserPasswordRequest) returns (VerifyUserPasswordResponse);
+	rpc CreateUser(CreateUserRequest) returns(InstanceUser);
+	rpc UpdateUser(UpdateUserRequest) returns(InstanceUser);
+}
+
+message GetUserRequest {
+	oneof id_or_name {
+		int32 id = 1;
+		string name = 2;
+	}
+}
+
+message InstanceUser {
+	int32 id = 1;
+	string name = 2;
+	string group = 3;
+}
+
+message VerifyUserPasswordRequest {
+	oneof id_or_name {
+		int32 id = 1;
+		string name = 2;
+	}
+	string password = 3;
+}
+
+message VerifyUserPasswordResponse {
+	bool is_password_valid = 1;
+}
+
+message CreateUserRequest {
+	string name = 1;
+	string password = 2;
+	string group = 3;
+}
+
+message UpdateUserRequest {
+	int32 id = 1;
+	oneof update_field {
+		string name = 2;
+		string password = 3;
+		string group = 4;
+	}
+}

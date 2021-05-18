@@ -1,0 +1,86 @@
+syntax = "proto3";
+package terraria_launcher.protos.services.instance_gateway;
+option csharp_namespace = "TerrariaLauncher.Protos.Services.InstanceGateway";
+
+import "google/protobuf/empty.proto";
+import "common_messages.proto";
+import "instance_plugins/instance_management/instance_player_management.proto";
+
+service InstancePlayerManagement {
+	rpc GetPlayers(GetPlayersRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.GetPlayersResponse);
+	rpc GetPlayer(GetPlayerRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.Player);
+	rpc GetPlayerData(GetPlayerDataRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.PlayerData);
+
+	rpc KillPlayer(KillPlayerRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.KillPlayerReponse);
+	rpc KillAllPlayers(KillAllPlayersRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.KillAllPlayersResponse);
+
+	rpc KickPlayer(KickPlayerRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.KickPlayerResponse);
+	rpc KickAllPlayers(KickAllPlayersRequest) returns (terraria_launcher.protos.instance_plugins.instance_management.KickAllPlayersResponse);
+
+	rpc TrackPlayerSession(TrackPlayerSessionRequest) returns (stream terraria_launcher.protos.instance_plugins.instance_management.TrackPlayerSessionResponse);
+	rpc TrackPlayerData(TrackPlayerDataRequest) returns (stream terraria_launcher.protos.instance_plugins.instance_management.TrackPlayerDataResponse);
+
+}
+
+message GetPlayersRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.GetPlayersRequest payload = 2;
+}
+
+message GetPlayerRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.GetPlayerRequest payload = 2;
+}
+
+message GetPlayerDataRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.GetPlayerDataRequest payload = 2;
+}
+
+message KillPlayerRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.KillPlayerRequest payload = 2;
+}
+
+message KillAllPlayersRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.KillAllPlayersRequest payload = 2;
+}
+
+message KickPlayerRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.KickPlayerRequest payload = 2;
+}
+
+message KickAllPlayersRequest {
+	int32 instance_id = 1;
+	terraria_launcher.protos.instance_plugins.instance_management.KickAllPlayersRequest payload = 2;
+}
+
+message TrackPlayerSessionRequest {
+	message Payload {
+		bool need_initialization = 1;
+	}
+
+	int32 instance_id = 1;
+	Payload payload = 2;
+}
+
+message TrackPlayerDataRequest {
+	message Payload {
+		oneof player_name_or_id {
+			int32 player_id = 1;
+			string player_name = 2;
+		}
+		bool need_initialization = 3;
+	}
+
+	int32 instance_id = 1;
+	Payload payload = 2;
+}
+
+// Use in details field of "terraria_launcher.protos.instance_plugins.instance_management.TrackPlayerDataResponse" message.
+// use this internal only for InstanceGateway service.
+message PlayerOfflineWhileTracking {
+	int32 player_id = 1;
+}

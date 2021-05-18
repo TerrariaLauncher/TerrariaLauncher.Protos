@@ -1,0 +1,18 @@
+syntax = "proto3";
+package terraria_launcher.protos.instance_plugins.instance_management;
+option csharp_namespace = "TerrariaLauncher.Protos.InstancePlugins.InstanceManagement";
+
+service InstanceGroupManagement {
+
+}
+
+message Group {
+	string name = 1;
+	ChatColor chat_color = 2;
+
+	message ChatColor {
+		int32 R = 1;
+		int32 G = 2;
+		int32 B = 3;
+	}
+}
