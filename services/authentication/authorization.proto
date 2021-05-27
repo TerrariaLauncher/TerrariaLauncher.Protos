@@ -4,14 +4,14 @@ package terraria_launcher.protos.services.authentication;
 import "google/protobuf/empty.proto";
 
 service Authorization {
-    rpc DoesGroupContainsPermission(DoesGroupContainsPermissionRequest) returns (DoesGroupContainsPermissionResponse);
+    rpc IsGroupAllowed(IsGroupAllowedRequest) returns (IsGroupAllowedResponse);
 }
 
-message DoesGroupContainsPermissionRequest {
+message IsGroupAllowedRequest {
     string group = 1;
-    string permission = 2;
+    string required_group = 2;
 }
 
-message DoesGroupContainsPermissionResponse {
-    bool contains = 1;
+message IsGroupAllowedResponse {
+    bool is_allowed = 1;
 }

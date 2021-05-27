@@ -48,5 +48,6 @@ message UpdateUserRequest {
 		string name = 2;
 		string password = 3;
 		string group = 4;
+		string u_u_i_d = 5;
 	}
 }

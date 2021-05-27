@@ -50,7 +50,10 @@ message RenewAccessTokenTokenRequest {
 }
 
 message RenewAccessTokenResponse {
-	string access_token = 1;
+	int32 id = 1;
+	string name = 2;
+	string group = 3;
+	string access_token = 4;
 }
 
 message ParseAccessTokenRequest {

@@ -48,7 +48,7 @@ message Player {
 }
 
 message GetPlayerRequest {
-	oneof id_or_name {
+	oneof identity {
 		int32 id = 1;
 		string name = 2;
 	}
@@ -60,7 +60,7 @@ message GetPlayersResponse {
 }
 
 message GetPlayerDataRequest {
-	oneof id_or_name {
+	oneof identity {
 		int32 id = 1;
 		string name = 2;
 	}
@@ -146,7 +146,7 @@ message GetPlayersDataResponse {
 }
 
 message KillPlayerRequest {
-	oneof id_or_name {
+	oneof identity {
 		int32 id = 1;
 		string name = 2;
 	}
@@ -175,14 +175,15 @@ message KillAllPlayersResponse {
 }
 
 message KickPlayerRequest {
-	oneof id_or_name {
+	oneof identity {
 		int32 id = 1;
 		string name = 2;
+		string user_name = 3;
 	}
-	string reason = 3;
-	bool force = 4;
-	bool silient = 5;
-	string who_ordered = 6;
+	string reason = 4;
+	bool force = 5;
+	bool silient = 6;
+	string who_ordered = 7;
 }
 
 message KickPlayerResponse {

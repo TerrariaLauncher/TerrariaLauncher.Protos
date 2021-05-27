@@ -3,57 +3,86 @@ package terraria_launcher.protos.services.trading_system;
 option csharp_namespace = "TerrariaLauncher.Protos.Services.TradingSystem";
 
 service RegisteredInstanceUserService {
-	rpc GetRegisteredInstanceUsers (GetRegisteredInstanceUsersRequest) returns (GetRegisteredInstanceUsersResponse);
-	rpc CreateInstanceUser(CreateInstanceUserRequest) returns (CreateInstanceUserResponse);
-	rpc RegisterInstanceUser(RegisterInstanceUserRequest) returns (RegisterInstanceUserResponse);
+	rpc CheckIfInstanceUserIsRegistered(CheckIfInstanceUserIsRegisteredRequest) returns (CheckIfInstanceUserIsRegisteredResponse);
+	rpc GetRegisteredInstanceUser(GetRegisteredInstanceUserRequest) returns (GetRegisteredInstanceUserResponse);
+	rpc GetRegisteredInstanceUsers(GetRegisteredInstanceUsersRequest) returns (GetRegisteredInstanceUsersResponse);
+	rpc RegisterNewInstanceUser(RegisterNewInstanceUserRequest) returns (RegisterNewInstanceUserResponse);
+	rpc RegisterExistingInstanceUser(RegisterExistingInstanceUserRequest) returns (RegisterExistingInstanceUserResponse);
 	rpc DeregisterInstanceUser(DeregisterInstanceUserRequest) returns (DeregisterInstanceUserResponse);
 }
 
-message RegisteredInstanceUser {
+message InstanceUser {
+	int32 id  = 1;
+	string name = 2;
+	string group = 3;
+}
+
+message CheckIfInstanceUserIsRegisteredRequest {
+	int32 instance_id = 1;
+	oneof identity {
+		int32 instance_user_id = 2;
+		string instance_user_name = 3;
+	}
+}
+
+message CheckIfInstanceUserIsRegisteredResponse {
+	bool is_registered = 1;
+	int32 user_id = 2;
+	int32 instance_id = 3;
+	InstanceUser instance_user = 4;
+}
+
+message GetRegisteredInstanceUserRequest {
+	int32 instance_id = 1;
+	int32 instance_user_id = 2;
+}
+
+message GetRegisteredInstanceUserResponse {
 	int32 user_id = 1;
 	int32 instance_id = 2;
-	int32 instance_user_id = 3;
-	string instance_user_name = 4;
+	InstanceUser instance_user = 3;
 }
 
 message GetRegisteredInstanceUsersRequest {
-	int32 instance_id = 1;
-	int32 user_id = 2;
+	int32 user_id = 1;
+	int32 instance_id = 2;
 }
 
 message GetRegisteredInstanceUsersResponse {
-	repeated RegisteredInstanceUser registered_instance_users = 1;
+	int32 user_id = 1;
+	int32 instance_id = 2;
+	repeated InstanceUser instance_users = 3;
 }
 
-message CreateInstanceUserRequest {
-	int32 instance = 1;
-	int32 user_id = 2;
-	string instance_user_name = 3;
-	string instance_user_password = 4;
-
-}
-
-message CreateInstanceUserResponse {
-	int32 instance_user_id = 1;
-	string instance_user_name = 2;
-	string instance_user_group = 3;
-}
-
-message RegisterInstanceUserRequest {
+message RegisterNewInstanceUserRequest {
 	int32 user_id = 1;
 	int32 instance_id = 2;
 	string instance_user_name = 3;
 	string instance_user_password = 4;
 }
 
-message RegisterInstanceUserResponse {
+message RegisterNewInstanceUserResponse {
+	int32 user_id = 1;
+	int32 instance_id = 2;
+	InstanceUser instance_user = 3;
+}
 
+message RegisterExistingInstanceUserRequest {
+	int32 user_id = 1;
+	int32 instance_id = 2;
+	string instance_user_name = 3;
+	string instance_user_password = 4;
+}
+
+message RegisterExistingInstanceUserResponse {
+	int32 user_id = 1;
+	int32 instance_id = 2;
+	InstanceUser instance_user = 3;
 }
 
 message DeregisterInstanceUserRequest {
-	int32 user_id = 1;
-	int32 instance_id = 2;
-	int32 instance_user_id = 3;
+	int32 instance_id = 1;
+	int32 instance_user_id = 2;
 }
 
 message DeregisterInstanceUserResponse {
